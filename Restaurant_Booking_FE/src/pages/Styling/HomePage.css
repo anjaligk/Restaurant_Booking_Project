@@ -1,0 +1,144 @@
+/* src/pages/HomePage.css */
+
+.homepage {
+  background-color: #333;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0; /* Remove the gap */
+}
+
+.navbar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.navbar li {
+  display: inline;
+  margin: 0 15px;
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Make it fill the viewport height */
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.bg-image {
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.text-content {
+  position: relative;
+  z-index: 2;
+  width: auto;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5); /* Dark background for text only */
+  text-align: center;
+}
+
+.text-content h1 {
+  font-size: 1.5rem; /* Decrease font size */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #f8f9fa;
+}
+
+.text-content h2 {
+  font-size: 3rem; /* Increase font size */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ font-family: 'Times New Roman', Times, serif;
+ color: #f8f9fa;
+}
+
+.text-content h3 {
+  font-size: 1.rem; /* Decrease font size */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-content .line1 {
+  display: inline-block;
+  width: 60px; /* Adjust width as needed */
+  height: 2px;
+  background-color: #fff;
+  margin: 0 10px; /* Adjust margin as needed */
+}
+
+.text-content .line2 {
+  display: inline-block;
+  width: 20px; /* Adjust width as needed */
+  height: 2px;
+  background-color: #fff;
+  margin: 0 10px; /* Adjust margin as needed */
+}
+
+.custom-btn {
+  margin-top: 20px;
+  background-color: transparent; /* Transparent background */
+  border: 2px solid #007bff; /* Border to match color theme */
+  border-radius: 5px;
+  padding: 10px 20px;
+  color: #007bff; /* Text color to match border */
+  cursor: pointer;
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.custom-btn:hover {
+  background-color: #007bff; /* Solid background on hover */
+  color: #fff; /* White text on hover */
+}
+
+.icon-content {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.icon-content i {
+  font-size: 2rem;
+  color: #f8f9fa; /* Light color for contrast */
+  margin: 0 10px; /* Spacing between icons */
+}
+
+.cutlery-icon {
+  width: 30px; /* Adjust size as needed */
+  height: auto;
+  margin-left: 10px; /* Adjust margin as needed */
+  margin-right: 10px;
+}
+
+.image-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
