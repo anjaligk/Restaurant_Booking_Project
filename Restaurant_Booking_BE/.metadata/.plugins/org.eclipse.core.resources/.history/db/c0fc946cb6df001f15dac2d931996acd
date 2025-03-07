@@ -1,0 +1,14 @@
+package com.management.feignclient;
+
+import java.util.List;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+@FeignClient(name = "reservation-service", path = "/reservation")
+public class ReservationFeignClient {
+
+	@PostMapping("/findByDateAndTime")
+    List<ReservationDTO> getReservationsForDateTime(@RequestBody AvailabilityRequest request);
+}

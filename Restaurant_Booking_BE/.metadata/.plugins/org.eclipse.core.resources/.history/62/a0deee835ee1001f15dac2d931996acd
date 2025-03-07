@@ -1,0 +1,24 @@
+package com.management.feignclient;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.management.DTO.AvailabilityRequest;
+import com.management.DTO.ReservationDTO;
+
+@FeignClient(name = "RESERVATION", path = "/reservation")
+public interface ReservationFeignClient {
+	
+	@GetMapping("/getall")
+	public List<ReservationDTO> getAllReservation();
+
+	@GetMapping("/findByDateAndTime")
+    List<ReservationDTO> getReservationsForDateTime(@RequestParam("date") LocalDate date,
+            @RequestParam("time") LocalTime time););
+}

@@ -1,0 +1,39 @@
+package com.managementTest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.example.demo.entity.TableEntity;
+import com.example.demo.repository.TableRepository;
+import com.example.demo.service.TableServiceImpl;
+
+@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+class TableManagementAppApplicationTests {
+
+    @Mock
+    TableRepository repository;
+
+    @InjectMocks
+    TableServiceImpl service;
+
+    @Test
+    public void testAddTable() {
+        TableEntity table = new TableEntity(1, "Table 1", 4, true);
+        when(repository.save(table)).thenReturn(table);
+
+        assertEquals("Table Saved Successfully", service.addTable(table));
+        verify(repository, times(1)).save(table);
+        verify(repository, atLeast(1)).save(table);
+    }
+}

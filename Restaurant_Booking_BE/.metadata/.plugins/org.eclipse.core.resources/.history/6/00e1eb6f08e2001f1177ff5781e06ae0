@@ -1,0 +1,50 @@
+package com.managementTest;
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.test.context.ContextConfiguration;
+
+import com.management.entity.TableEntity;
+import com.management.repository.TableRepository;
+import com.management.service.TableService;
+import com.management.service.TableServiceImpl;
+
+@SpringBootTest
+@ContextConfiguration(classes = TableServiceTest.TestConfig.class)
+public class TableServiceTest {
+
+    @Configuration
+    static class TestConfig {
+        // Any additional test configuration can be added here.
+    }
+
+    @Mock
+    private TableRepository tableRepository;
+
+    @InjectMocks
+    private TableServiceImpl tableService; // Your service class that contains the addTable method
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    public void testAddTable() {
+        TableEntity tableEntity = new TableEntity();
+        when(tableRepository.save(tableEntity)).thenReturn(tableEntity);
+
+        TableEntity result = tableService.addTable(tableEntity);
+
+        assertNotNull(result);
+        assertEquals(tableEntity, result);
+        verify(tableRepository, times(1)).save(tableEntity);
+    }
+}

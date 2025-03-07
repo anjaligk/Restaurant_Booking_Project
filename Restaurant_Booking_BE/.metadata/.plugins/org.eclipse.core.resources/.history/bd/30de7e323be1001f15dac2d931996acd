@@ -1,0 +1,104 @@
+package com.management.service;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.management.DTO.AvailabilityRequest;
+import com.management.DTO.ReservationDTO;
+import com.management.entity.TableEntity;
+import com.management.exceptions.TableNotFound;
+import com.management.feignclient.ReservationFeignClient;
+import com.management.repository.TableRepository;
+
+@Service
+@Transactional
+public class TableServiceImpl implements TableService{
+	
+	@Autowired
+	TableRepository tableRepository;
+	
+	@Autowired
+    ReservationFeignClient reservationFeignClient;
+	
+	@Override
+	public TableEntity addTable(TableEntity tableEntity) {
+		System.out.println("added a table successfully");
+		return tableRepository.save(tableEntity);	
+	}
+	
+	@Override
+	public TableEntity updateTable(TableEntity tableEntity) {
+	//	System.out.println("changed the table " +TableId + "successfully");
+		 TableEntity table = tableRepository.save(tableEntity);
+		 return table;
+	}
+	
+	@Override
+	public void deleteTable(int TableId) {
+		tableRepository.deleteById(TableId);
+	}
+	
+	@Override
+	public TableEntity getTableById(int TableId) {
+		return tableRepository.findById(TableId)
+				.orElseThrow(() -> new TableNotFound("Table not found with the id: "+ TableId));
+	}
+	
+	@Override
+	public Page<TableEntity> getAllTables(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return tableRepository.findAll(pageable);
+    }
+	
+	@Override
+	public void deleteAllByCapacity(Integer capacity) {
+		tableRepository.deleteAllByCapacity(capacity);
+	}
+
+	@Override
+	public List<TableEntity> getAllTable() {
+		return tableRepository.findAll();
+	}
+	
+	 public List<TableEntity> getAvailableTables() {
+	        return tableRepository.findByIsAvailable(true);
+	    }
+
+    public void updateTableAvailability(int tableId, boolean isAvailable) {
+        TableEntity table = tableRepository.findById(tableId).orElseThrow(() -> new TableNotFound("Table not found"));
+        table.setIsAvailable(isAvailable);
+        tableRepository.save(table);
+    }
+    
+    @Override
+    public List<TableEntity> getAvailableTablesForDateTime(LocalDate date, LocalTime time) {
+        // Fetch all tables
+        List<TableEntity> allTables = tableRepository.findAll();
+
+        // Fetch reservations for the specified date and time
+        AvailabilityRequest request = new AvailabilityRequest();
+        request.setDate(date);
+        request.setTime(time);
+        List<ReservationDTO> reservations = reservationFeignClient.getReservationsForDateTime(request);
+
+        // Extract reserved table IDs
+        List<Integer> bookedTableIds = reservations.stream()
+                .map(ReservationDTO::getTableId) // Extract the table ID from each reservation
+                .collect(Collectors.toList());
+
+        // Filter out booked tables
+        return allTables.stream()
+                .filter(table -> !bookedTableIds.contains(table.getTableId())) // Filter tables that are not booked
+                .collect(Collectors.toList());
+    }
+	
+}

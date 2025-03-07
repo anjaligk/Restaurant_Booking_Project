@@ -1,0 +1,33 @@
+package com.management.service;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+
+import com.management.entity.TableEntity;
+
+public interface TableService {
+
+	TableEntity addTable(TableEntity tableEntity);
+	
+	TableEntity updateTable(TableEntity tableEntity);
+
+	void deleteTable(int TableId);
+
+	TableEntity getTableById(int TableId);
+	
+	public abstract void deleteAllByCapacity(Integer capacity);
+
+	Page<TableEntity> getAllTables(int page, int size);
+
+	public List<TableEntity> getAllTable();
+
+	List<TableEntity> getAvailableTables();
+
+	void updateTableAvailability(int tableId, boolean isAvailable);
+	
+	
+}

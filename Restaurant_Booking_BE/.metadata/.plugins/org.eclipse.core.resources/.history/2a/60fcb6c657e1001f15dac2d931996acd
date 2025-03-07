@@ -1,0 +1,64 @@
+package com.management.entity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "tables")
+public class TableEntity{
+	
+	@Id
+	@Column(nullable = false)
+	private int TableId;
+	
+	@Column(nullable = false)
+	private Integer capacity;
+	
+	@Column(nullable = false)
+	private Boolean isAvailable;
+
+	public int getTableId() {
+		return TableId;
+	}
+
+	public void setTableId(int tableId)  {
+		TableId = tableId;
+	}
+
+	public Integer getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(Integer capacity) {
+		this.capacity = capacity;
+	}
+
+	public Boolean getIsAvailable() {
+		return isAvailable;
+	}
+
+	public void setIsAvailable(Boolean isAvailable) {
+		this.isAvailable = isAvailable;
+	}
+
+	public TableEntity(int tableId, Integer capacity, Boolean isAvailable) {
+		super();
+		TableId = tableId;
+		this.capacity = capacity;
+		this.isAvailable = isAvailable;
+	}
+
+	public TableEntity() {
+		super();
+	}
+
+	@Override
+	public String toString() {
+		return "TableEntity [TableId=" + TableId + ", capacity=" + capacity + ", isAvailable=" + isAvailable + "]";
+	}
+	
+	
+
+}

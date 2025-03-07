@@ -1,0 +1,76 @@
+package com.management.controller;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.management.entity.TableEntity;
+import com.management.service.TableService;
+
+@RestController
+@RequestMapping("/manageTable") 
+public class TableController {
+	
+	@Autowired
+	TableService tableService;
+	
+	@PostMapping("/add")
+	public TableEntity addTable(@RequestBody TableEntity table) {
+		return tableService.addTable(table);
+	}
+	
+	@PutMapping("/change")
+	public TableEntity updateTable(@RequestBody TableEntity table) {
+		return tableService.updateTable(table);
+	}
+	
+	@DeleteMapping("/delete/{TableId}")
+	public void deleteTable(@PathVariable("TableId") int tableId) {
+		 tableService.deleteTable(tableId);
+	}
+	
+	@GetMapping("/getById/{TableId}")
+	public TableEntity getTableById(@PathVariable("TableId") int tableId){
+		return tableService.getTableById(tableId);
+	}
+	
+	@GetMapping("/getallPaged") //http://localhost:8082/manageTable/getallPaged?page=0&size=5
+	public Page<TableEntity> getAllTablesPaged(@RequestParam(value = "page", defaultValue = "0")int page,
+											   @RequestParam(value = "size", defaultValue = "10") int size) {
+		return tableService.getAllTables(page, size);
+	}
+	
+	@GetMapping("/getall") 
+	public List<TableEntity> getAllTable() {
+		return tableService.getAllTable();
+	}
+	
+	@GetMapping("/getavailable")
+    public List<TableEntity> getAllAvailableTables() {
+        return tableService.getAvailableTables();
+    }
+
+    @PostMapping("/updateStatus/{tableId}")
+    public void updateTableStatus(@PathVariable int tableId, @RequestParam boolean isAvailable) {
+        tableService.updateTableAvailability(tableId, isAvailable);
+    }
+	
+	@DeleteMapping("/deletebycapacity/{capacity}")
+	public void deleteAllBycapacity(@PathVariable("capacity") int capacity) {
+		 tableService.deleteAllByCapacity(capacity);
+	}
+
+}
